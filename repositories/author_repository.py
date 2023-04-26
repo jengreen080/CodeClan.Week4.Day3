@@ -16,13 +16,23 @@ def delete_all():
     run_sql(sql)
 
 def select_all():
-    books = []
+    authors = []
 
     sql = "SELECT * FROM books"
     results = run_sql(sql)
 
     for row in results:
-        author = author_repo.select_all(row["id"])
-        book = Book(row["title"], author, row["id"])
-        books.append(book)
-    return books
+        author = Author(row["name"], row["id"])
+        author.append(author)
+    return authors
+
+def select(id):
+    author = None
+    sql = "SELECT * FROM authors WHERE id = %s"
+    values = [id]
+    results = run_sql(sql, values)
+
+    if results:
+        result = results[0]
+        author = Author(result["name"], result["id"])
+    return author
